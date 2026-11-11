@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Register{% endblock %}
+{% block content %}
+<section class="auth-card"><h1>Create account</h1><p>Register a staff login for this system.</p>
+<form method="post"><label>Username</label><input name="username" required minlength="3">
+<label>Password (at least 8 characters)</label><input type="password" name="password" required minlength="8">
+<button>Create account</button></form><p class="muted">Already registered? <a href="{{ url_for('login') }}">Login</a>.</p></section>
+{% endblock %}

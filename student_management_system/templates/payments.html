@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block title %}Payments{% endblock %}
+{% block content %}<h1>Student payments</h1><p>Record and manage tuition or other payments. Amounts are in UGX.</p>
+<section class="panel"><h2>Record a payment</h2>
+{% if students %}<form method="post" action="{{ url_for('save_payment') }}" class="inline-form">
+<select name="student_id" required><option value="">Choose student</option>{% for s in students %}<option value="{{ s.id }}">{{ s.reg_no }} — {{ s.first_name }} {{ s.last_name }}</option>{% endfor %}</select>
+<input type="number" name="amount" min="1" step="0.01" placeholder="Amount (UGX)" required>
+<input type="date" name="payment_date" required><input name="purpose" placeholder="Purpose e.g. Tuition" required>
+<input name="reference" placeholder="Receipt/reference (optional)"><button>Save payment</button></form>
+{% else %}<p class="muted">Register a student before recording a payment.</p>{% endif %}</section>
+<section class="panel"><h2>Payment history</h2><div class="table-wrap"><table><tr><th>Date</th><th>Student</th><th>Purpose</th><th>Amount (UGX)</th><th>Reference</th><th>Actions</th></tr>
+{% for p in payments %}<tr><td>{{ p.payment_date }}</td><td>{{ p.reg_no }} — {{ p.first_name }} {{ p.last_name }}</td><td>{{ p.purpose }}</td><td>{{ "{:,.0f}".format(p.amount) }}</td><td>{{ p.reference or "—" }}</td><td class="actions">
+<details><summary>Edit</summary><form method="post" action="{{ url_for('save_payment', payment_id=p.id) }}" class="edit-form">
+<select name="student_id" required>{% for s in students %}<option value="{{ s.id }}" {{ 'selected' if s.id==p.student_id else '' }}>{{ s.reg_no }} — {{ s.first_name }}</option>{% endfor %}</select>
+<input type="number" name="amount" min="1" step="0.01" value="{{ p.amount }}" required><input type="date" name="payment_date" value="{{ p.payment_date }}" required>
+<input name="purpose" value="{{ p.purpose }}" required><input name="reference" value="{{ p.reference or '' }}"><button class="small">Update</button></form></details>
+<form method="post" action="{{ url_for('delete_payment', payment_id=p.id) }}" onsubmit="return confirm('Delete this payment?')"><button class="danger small">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="6">No payments recorded.</td></tr>{% endfor %}</table></div></section>{% endblock %}

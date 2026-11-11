@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Student form{% endblock %}
+{% block content %}<section class="form-card"><h1>{{ "Update student" if student else "Student registration form" }}</h1>
+<form method="post" class="form-grid">
+<label>Registration number *<input name="reg_no" required value="{{ student.reg_no if student else '' }}"></label>
+<label>First name *<input name="first_name" required value="{{ student.first_name if student else '' }}"></label>
+<label>Last name *<input name="last_name" required value="{{ student.last_name if student else '' }}"></label>
+<label>Gender<select name="gender"><option value="">Select</option>{% for g in ['Female','Male','Other'] %}<option {{ 'selected' if student and student.gender==g else '' }}>{{ g }}</option>{% endfor %}</select></label>
+<label>Course / programme<input name="course" value="{{ student.course if student else '' }}"></label>
+<label>Phone<input name="phone" value="{{ student.phone if student else '' }}"></label>
+<label class="wide">Email<input type="email" name="email" value="{{ student.email if student else '' }}"></label>
+<div class="wide form-actions"><button>Save student</button><a class="button secondary" href="{{ url_for('students') }}">Cancel</a></div>
+</form></section>{% endblock %}

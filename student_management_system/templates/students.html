@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Students{% endblock %}
+{% block content %}
+<div class="page-heading"><div><h1>Students</h1><p>Register, view, update or remove student details.</p></div><a class="button" href="{{ url_for('student_form') }}">+ Add student</a></div>
+<section class="panel"><div class="table-wrap"><table><tr><th>Reg. No.</th><th>Name</th><th>Gender</th><th>Course</th><th>Phone</th><th>Actions</th></tr>
+{% for s in students %}<tr><td>{{ s.reg_no }}</td><td>{{ s.first_name }} {{ s.last_name }}</td><td>{{ s.gender or "—" }}</td><td>{{ s.course or "—" }}</td><td>{{ s.phone or "—" }}</td>
+<td class="actions"><a href="{{ url_for('student_form', student_id=s.id) }}">Edit</a>
+<form method="post" action="{{ url_for('delete_student', student_id=s.id) }}" onsubmit="return confirm('Delete this student and related marks/payments?')"><button class="danger small">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="6">No students registered yet.</td></tr>{% endfor %}</table></div></section>
+{% endblock %}
