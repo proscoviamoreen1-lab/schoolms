@@ -10,7 +10,7 @@ itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.3
 mysql-connector-python==8.4.0
-pandas==3.0.5
+pandas==2.3.3
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.3
 six==1.17.0
