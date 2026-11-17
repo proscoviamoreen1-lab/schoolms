@@ -1,0 +1,41 @@
+services:
+  web:
+    build: .
+    container_name: school_ms
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT}:5000"
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - app-network
+    mysql:
+      image: mysql:8.0
+      container_name: flask_mysql
+      restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER} 
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "-u","${MYSQL_USER}","-p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+      networks:
+        - app-network
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      app-network:
+        driver: bridge
+    volumes:
+      mysql_data:
+        driver: local
+    environment:
+      - DEBUG=1
