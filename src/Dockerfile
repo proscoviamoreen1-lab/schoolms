@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.9-slim
 WORKDIR /src
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -12,4 +12,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 5000
-CMD ["gunicorn", "--bind", "0.0.0.0:5000","--workers", "4", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
