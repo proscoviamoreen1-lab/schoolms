@@ -14,14 +14,16 @@ app.secret_key = os.getenv("SECRET_KEY")
 DB_PATH = Path(__file__).with_name("school.db")
 
 def db():
-    con = mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
-    )
-    conn = psycopg.connect(os.getenv("DATABASE_URL"))
-    return con or conn
+    if os.getenv("DATABASE_URL"):
+        return psycopg.connect(os.getenv("DATABASE_URL"))
+    else:
+        con = mysql.connector.connect(
+            host=os.getenv("DB_HOST"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME")
+        )
+        return con 
 
 def init_db():
     con = db()
