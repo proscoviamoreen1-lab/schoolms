@@ -99,8 +99,11 @@ def register():
                 con.commit()
                 flash("Account created. Please log in.", "success")
                 return redirect(url_for("login"))
-            except mysql.connector.IntegrityError or psycopg.IntegrityError:
+            except  psycopg.IntegrityError:
                 flash("That username is already registered.", "error")
+            except Exception as e:
+                print(e)
+                flash("An error occurred. Please try again.", "error")
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -194,8 +197,11 @@ def student_form(student_id=None):
                                     VALUES(%s,%s,%s,%s,%s,%s,%s)""", values)
                         flash("Student registered successfully.", "success")
                     return redirect(url_for("students"))
-                except mysql.connector.IntegrityError or psycopg.IntegrityError:
+                except  psycopg.IntegrityError:
                     flash("That registration number already exists.", "error")
+                except Exception as e:
+                    print(e)
+                    flash("An error occurred. Please try again.", "error")
     return render_template("student_form.html", student=student)
 
 @app.post("/students/<int:student_id>/delete")
