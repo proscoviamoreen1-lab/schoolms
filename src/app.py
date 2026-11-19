@@ -133,7 +133,7 @@ def dashboard():
             "marks": cursor.execute("SELECT COUNT(*) FROM marks").fetchone()[0],
             "total": cursor.execute("SELECT COALESCE(SUM(amount),0) FROM payments").fetchone()[0]
             }
-    except TypeError,AttributeError:
+    except (TypeError, AttributeError):
         counts = {
             "students": 0,
             "payments": 0,
