@@ -9,8 +9,11 @@ greenlet==3.5.3
 itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.3
-mysql-connector-python==8.4.0
-pandas>=2.3.3
+mysql-connector==2.2.9
+numpy==2.5.3
+pandas==3.0.5
+psycopg==3.3.9
+psycopg-binary==3.3.9
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.3
 six==1.17.0
