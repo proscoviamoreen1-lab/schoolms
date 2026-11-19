@@ -19,12 +19,7 @@ def db():
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
         database=os.getenv("DB_NAME")
-    ) or psycopg.connect(
-        host=os.getenv("DB_HOST"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        dbname=os.getenv("DB_NAME")
-    )
+    ) or psycopg.connect(os.getenv("DATABASE_URL"))
     return con
 
 def init_db():
