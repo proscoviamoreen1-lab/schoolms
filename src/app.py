@@ -291,7 +291,9 @@ def delete_mark(mark_id):
     con.execute("DELETE FROM marks WHERE id=%s", (mark_id,))
     flash("Mark deleted.", "success")
     return redirect(url_for("marks"))
-
+@app.route("/health")
+def health():
+    return "Health check passed.", 200
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
