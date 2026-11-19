@@ -24,18 +24,23 @@ def db():
             database=os.getenv("DB_NAME")
         )
         return con 
+def func():
+    if os.getenv("DATABASE_URL"):
+        return "SERIAL"
+    else:
+        return "AUTO_INCREMENT"
 
 def init_db():
     con = db()
     cursor = con.cursor()
-    cursor.execute("""
+    cursor.execute(f"""
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY {func()},
             username varchar(100) UNIQUE NOT NULL,
             password_hash TEXT NOT NULL)""")
-    cursor.execute("""
+    cursor.execute(f"""
         CREATE TABLE IF NOT EXISTS students (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY {func()},
             reg_no varchar(50) UNIQUE NOT NULL,
             first_name varchar(100) NOT NULL,
             last_name varchar(100) NOT NULL,
@@ -44,9 +49,9 @@ def init_db():
             phone varchar(20),
             email varchar(100)
        )""" )
-    cursor.execute("""
+    cursor.execute(f"""
         CREATE TABLE IF NOT EXISTS payments (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY {func()},
             student_id INTEGER NOT NULL,
             amount REAL NOT NULL CHECK(amount > 0),
             payment_date varchar(100) NOT NULL,
@@ -54,9 +59,9 @@ def init_db():
             reference varchar(100),
             FOREIGN KEY(student_id) REFERENCES students(id) ON DELETE CASCADE
         )""")
-    cursor.execute("""
+    cursor.execute(f"""
         CREATE TABLE IF NOT EXISTS marks (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY {func()},
             student_id INTEGER NOT NULL, 
             subject varchar(100) NOT NULL,
             mark REAL NOT NULL CHECK(mark >= 0 AND mark <= 100),
