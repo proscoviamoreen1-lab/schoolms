@@ -94,7 +94,7 @@ def register():
                 con.commit()
                 flash("Account created. Please log in.", "success")
                 return redirect(url_for("login"))
-            except mysql.connector.IntegrityError:
+            except mysql.connector.IntegrityError or psycopg.IntegrityError:
                 flash("That username is already registered.", "error")
     return render_template("register.html")
 
@@ -189,7 +189,7 @@ def student_form(student_id=None):
                                     VALUES(%s,%s,%s,%s,%s,%s,%s)""", values)
                         flash("Student registered successfully.", "success")
                     return redirect(url_for("students"))
-                except mysql.connector.IntegrityError:
+                except mysql.connector.IntegrityError or psycopg.IntegrityError:
                     flash("That registration number already exists.", "error")
     return render_template("student_form.html", student=student)
 
