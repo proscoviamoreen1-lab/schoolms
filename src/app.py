@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash,jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 import psycopg
@@ -61,6 +61,18 @@ def init_db():
         )""")
     con.commit()
     cursor.close()
+
+@app.route("/test_connection", methods=["GET"])
+def test_connection():
+    con = db()
+    cursor = con.cursor()
+    cursor.execute("""
+        SELECT table_name
+        FROM information_schema.tables
+        WHERE table_schema = 'public'
+    """)
+
+    return jsonify(cursor.fetchall())
 
 def login_required(fn):
     @wraps(fn)
