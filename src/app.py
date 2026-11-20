@@ -10,7 +10,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 DB_PATH = Path(__file__).with_name("school.db")
 
 def db():
