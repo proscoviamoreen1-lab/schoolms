@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 import psycopg
+from psycopg.rows import dict_row
 from pathlib import Path
 from dotenv import load_dotenv
 import os
@@ -102,7 +103,7 @@ def login():
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
         con = db()
-        cursor = con.cursor(dictionary=True)
+        cursor = con.cursor(row_factory=dict_row)
         cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
         user=cursor.fetchone()
 
