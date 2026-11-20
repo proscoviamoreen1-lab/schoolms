@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
-import mysql.connector
 import psycopg
 from pathlib import Path
 from dotenv import load_dotenv
@@ -14,16 +13,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 DB_PATH = Path(__file__).with_name("school.db")
 
 def db():
-    if os.getenv("DATABASE_URL"):
-        return psycopg.connect(os.getenv("DATABASE_URL"))
-    else:
-        con = mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_NAME")
-        )
-        return con 
+    return psycopg.connect(os.getenv("DATABASE_URL"))
 def func():
     if os.getenv("DATABASE_URL"):
         return "SERIAL"
