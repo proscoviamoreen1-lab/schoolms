@@ -26,12 +26,12 @@ def init_db():
     cursor = con.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY SERIAL,
+            id SERIAL PRIMARY KEY ,
             username varchar(100) UNIQUE NOT NULL,
             password_hash TEXT NOT NULL)""")
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS students (
-            id INTEGER PRIMARY KEY  SERIAL,
+            id SERIAL PRIMARY KEY ,
             reg_no varchar(50) UNIQUE NOT NULL,
             first_name varchar(100) NOT NULL,
             last_name varchar(100) NOT NULL,
@@ -42,7 +42,7 @@ def init_db():
        )""" )
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS payments (
-            id INTEGER PRIMARY KEY  SERIAL,
+            id SERIAL PRIMARY KEY ,
             student_id INTEGER NOT NULL,
             amount REAL NOT NULL CHECK(amount > 0),
             payment_date varchar(100) NOT NULL,
@@ -52,7 +52,7 @@ def init_db():
         )""")
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS marks (
-            id INTEGER PRIMARY KEY  SERIAL,
+            id SERIAL PRIMARY KEY ,
             student_id INTEGER NOT NULL, 
             subject varchar(100) NOT NULL,
             mark REAL NOT NULL CHECK(mark >= 0 AND mark <= 100),
